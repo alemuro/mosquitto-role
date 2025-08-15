@@ -1,7 +1,18 @@
 alemuro.mosquitto
 =========
 
-This role installs and manages the Mosquitto service on Raspbian devices
+[![CI](https://github.com/alemuro/mosquitto-role/actions/workflows/ci.yml/badge.svg)](https://github.com/alemuro/mosquitto-role/actions/workflows/ci.yml)
+[![Release](https://github.com/alemuro/mosquitto-role/actions/workflows/release.yml/badge.svg)](https://github.com/alemuro/mosquitto-role/actions/workflows/release.yml)
+
+This role installs and manages the Mosquitto MQTT broker service on Raspbian/Debian devices.
+
+## Features
+
+- Mosquitto MQTT broker installation
+- Configurable settings through variables
+- User authentication with password files
+- Automatic service management
+- Support for custom configurations
 
 Role Variables
 --------------
@@ -15,7 +26,7 @@ Role Variables
 
 **alemuro_mosquitto_settings**
 
-```
+```yaml
 alemuro_mosquitto_settings:
   allow_anonymous: no
   persistence: yes
@@ -25,8 +36,8 @@ alemuro_mosquitto_settings:
 
 **alemuro_mosquitto_user_list**
 
-```
-alemuro_mosquitto_settings:
+```yaml
+alemuro_mosquitto_user_list:
   admin: <htpasswd value>
 ```
 
@@ -35,21 +46,36 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-```
-    - hosts: pi
-      roles:
-         - { role: alemuro.mosquitto }
+```yaml
+- hosts: pi
+  roles:
+    - role: alemuro.mosquitto
 ```
 
 Usage
 -----
 
-* Install:
+Install from Ansible Galaxy:
 
-```
-$ ansible-galaxy -p roles alemuro.mosquitto
+```bash
+ansible-galaxy install alemuro.mosquitto
 ```
 
+## Development
+
+This project uses GitHub Actions for CI/CD. See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
+
+### Testing
+
+```bash
+# Install dependencies
+pip install yamllint ansible-lint ansible
+
+# Run tests
+yamllint .
+ansible-lint
+ansible-playbook tests/test.yml --syntax-check
+```
 
 License
 -------

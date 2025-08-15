@@ -6,3 +6,9 @@
 *.retry
 
 # End of https://www.gitignore.io/api/ansible
+
+# Test artifacts
+tests/roles/
+.cache/
+__pycache__/
+*.pyc

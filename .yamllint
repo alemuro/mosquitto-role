@@ -1,0 +1,28 @@
+---
+extends: default
+
+rules:
+  # Allow long lines for URLs and commands
+  line-length:
+    max: 120
+    level: warning
+
+  # Allow multiple spaces for alignment in YAML
+  colons:
+    max-spaces-before: 0
+    max-spaces-after: 1
+
+  # Allow indentation to be consistent with Ansible best practices
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+
+  # Allow truthy values for Ansible variables
+  truthy:
+    allowed-values: ['true', 'false', 'yes', 'no']
+    check-keys: false
+
+ignore: |
+  .github/
+  .git/

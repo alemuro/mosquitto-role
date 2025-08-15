@@ -1,0 +1,89 @@
+---
+name: CI
+
+on:
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install yamllint ansible-lint ansible
+
+      - name: Lint code with yamllint
+        run: yamllint .
+
+      - name: Lint code with ansible-lint
+        run: ansible-lint
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ansible-version: [stable-2.13, stable-2.14, stable-2.15]
+        
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install ansible-core
+          ansible-galaxy collection install community.general
+
+      - name: Check Ansible version
+        run: ansible --version
+
+      - name: Create role symlink for testing
+        run: |
+          mkdir -p tests/roles
+          ln -s ../.. tests/roles/alemuro.mosquitto
+
+      - name: Syntax check
+        run: |
+          ansible-playbook tests/test.yml --syntax-check
+
+      - name: Test role structure
+        run: |
+          # Test that all required files exist
+          test -f meta/main.yml
+          test -f tasks/main.yml
+          test -f defaults/main.yml
+          test -f handlers/main.yml
+          test -d templates/
+          
+      - name: Validate role metadata
+        run: |
+          # Check that meta/main.yml is valid YAML and has required fields
+          python3 -c "
+          import yaml
+          with open('meta/main.yml') as f:
+              meta = yaml.safe_load(f)
+              assert 'galaxy_info' in meta
+              assert 'role_name' in meta['galaxy_info']
+              assert 'namespace' in meta['galaxy_info']
+              assert 'author' in meta['galaxy_info']
+              print('Role metadata validation passed')
+          "
