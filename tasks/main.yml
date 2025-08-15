@@ -2,11 +2,11 @@
 # tasks file for alemuro.mosquitto
 
 - name: Install Mosquitto
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - build
 
-- name: Install Mosquitto
-  include: configure.yml
+- name: Configure Mosquitto
+  include_tasks: configure.yml
   tags:
     - configure

@@ -1,0 +1,13 @@
+---
+exclude_paths:
+  - .cache/
+  - .github/
+  - molecule/
+  - .yamllint
+
+skip_list:
+  - name[casing]
+  - fqcn[action-core]
+  - risky-file-permissions
+  - jinja[spacing]
+  - name[play]

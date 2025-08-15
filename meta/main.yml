@@ -1,9 +1,11 @@
+---
 galaxy_info:
   role_name: mosquitto
+  namespace: alemuro
   author: Aleix Murtra
   description: Ansible role to manage mopsquitto on Raspbian devices.
   license: Apache-2.0
-  min_ansible_version: 2.4
+  min_ansible_version: "2.4"
   platforms:
     - name: Debian
       versions:

@@ -1,3 +1,4 @@
+---
 - name: Setup password file
   become: yes
   template:

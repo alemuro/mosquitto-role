@@ -11,4 +11,4 @@ alemuro_mosquitto_settings:
   log_timestamp_format: "%Y-%m-%dT%H:%M:%S"
 alemuro_mosquitto_password_file: /etc/mosquitto/pwfile
 alemuro_mosquitto_user_list:
-  #user: password in htpasswd format
+# user: password in htpasswd format
